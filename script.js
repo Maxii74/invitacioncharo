@@ -105,21 +105,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ----------------------------------------------------------
-     4) SCROLL REVEAL — cada bloque aparece al entrar al viewport
+     4) REVEAL SECUENCIAL — cada bloque aparece al cargar la página
      ---------------------------------------------------------- */
   const blocks = document.querySelectorAll('.block[data-anim]');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.18,
-    rootMargin: '0px 0px -8% 0px'
-  });
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const startDelay = prefersReducedMotion ? 0 : 180;
+  const staggerDelay = prefersReducedMotion ? 0 : 560;
 
-  blocks.forEach((block) => observer.observe(block));
+  if (prefersReducedMotion) {
+    blocks.forEach((block) => block.classList.add('is-visible'));
+  } else {
+    blocks.forEach((block, index) => {
+      setTimeout(() => {
+        block.classList.add('is-visible');
+      }, startDelay + (index * staggerDelay));
+    });
+  }
 });
