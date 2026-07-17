@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chari's 20 · Invitación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card" id="card">
+
+  <!-- 1. HERO -->
+  <section class="block block--hero" data-anim="hero">
+    <img src="1.png" alt="Chari's 20 - Sábado 8 de Agosto" class="block__img">
+  </section>
+
+  <!-- 2. CUENTA REGRESIVA -->
+  <section class="block block--countdown" data-anim="countdown">
+    <img src="2.png" alt="Cuenta regresiva" class="block__img">
+    <div class="countdown-overlay">
+      <div class="countdown-title">CUENTA REGRESIVA</div>
+      <div class="countdown" id="countdown">
+        <div class="countdown__item">
+          <span class="countdown__num" id="cd-days">00</span>
+          <span class="countdown__label">DÍAS</span>
+        </div>
+        <span class="countdown__colon">:</span>
+        <div class="countdown__item">
+          <span class="countdown__num" id="cd-hours">00</span>
+          <span class="countdown__label">HORAS</span>
+        </div>
+        <span class="countdown__colon">:</span>
+        <div class="countdown__item">
+          <span class="countdown__num" id="cd-mins">00</span>
+          <span class="countdown__label">MINUTOS</span>
+        </div>
+        <span class="countdown__colon">:</span>
+        <div class="countdown__item">
+          <span class="countdown__num" id="cd-secs">00</span>
+          <span class="countdown__label">SEGUNDOS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. DIRECCIÓN + COMO LLEGAR -->
+  <section class="block block--address" data-anim="left">
+    <img src="3.png" alt="21:00 hs Merced 809 - Cómo llegar" class="block__img">
+    <a class="hotspot hotspot--comollegar"
+       href="https://maps.app.goo.gl/6SeabnT2rWXi2w5M8"
+       target="_blank" rel="noopener"
+       aria-label="Cómo llegar - abrir en Google Maps"></a>
+  </section>
+
+  <!-- 5. CONFIRMAR ASISTENCIA -->
+  <section class="block block--confirm" data-anim="zoom">
+    <img src="5.png" alt="Confirmar asistencia" class="block__img">
+    <a class="hotspot hotspot--confirm"
+       id="confirm-link"
+       href="https://wa.me/5492477359024?text=Hola%20Charii%2C%20confirmo%20la%20asistencia%20a%20tu%20cumplee." target="_blank" rel="noopener"
+       aria-label="Confirmar asistencia por WhatsApp"></a>
+  </section>
+
+  <!-- 6. FINAL -->
+  <section class="block block--final" data-anim="scale">
+    <img src="6.png" alt="Te esperooo" class="block__img">
+  </section>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Alias copiado ✔</div>
+
+<script src="script.js"></script>
+</body>
+</html>

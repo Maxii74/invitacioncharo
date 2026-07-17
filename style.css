@@ -1,0 +1,311 @@
+/* ============================================================
+   CHARI'S 20 — Invitación digital interactiva
+   ============================================================ */
+
+:root {
+  --beige: #F3E9E3;
+  --pink: #E52989;
+  --pink-dark: #C71F72;
+  --white: #FFFFFF;
+  --font-round: 'Baloo 2', sans-serif;
+  --font-hand: 'Permanent Marker', cursive;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--beige);
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-round);
+}
+
+/* The single continuous vertical card, ~560px wide (Instagram story style) */
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--beige);
+  position: relative;
+  box-shadow: 0 0 60px rgba(0,0,0,0.06);
+}
+
+/* Each block sits flush against the next — no gap, no border, no seam */
+.block {
+  position: relative;
+  display: block;
+  line-height: 0; /* removes inline-image whitespace gap */
+  background: var(--beige);
+}
+
+.block__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   SCROLL-REVEAL ANIMATIONS (per block, subtle, Intersection Observer driven)
+   ============================================================ */
+
+.block[data-anim] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.block[data-anim="hero"]      { transform: translateY(28px); }
+.block[data-anim="countdown"] { transform: translateY(18px); }
+.block[data-anim="left"]      { transform: translateX(-32px); }
+.block[data-anim="fade"]      { transform: translateY(14px); }
+.block[data-anim="zoom"]      { transform: scale(0.94); }
+.block[data-anim="scale"]     { transform: scale(0.92); }
+
+.block.is-visible {
+  opacity: 1;
+  transform: translate(0,0) scale(1);
+  transition: opacity 0.9s cubic-bezier(.22,.9,.32,1), transform 0.9s cubic-bezier(.22,.9,.32,1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block[data-anim] { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   COUNTDOWN OVERLAY
+   Covers the static numbers baked in the image and replaces
+   them with a live, real-time countdown in the same spot/style.
+   ============================================================ */
+
+.block--countdown { position: relative; }
+
+.countdown-overlay {
+  position: absolute;
+  left: 7.8%;
+  top: 27%;
+  width: 86%;
+  height: 49%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.countdown-title {
+  font-family: var(--font-round);
+  font-weight: 800;
+  color: var(--pink);
+  font-size: clamp(16px, 3.8vw, 24px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.countdown {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  gap: 1.6%;
+}
+
+.countdown__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.countdown__num {
+  font-family: var(--font-round);
+  font-weight: 800;
+  color: var(--pink);
+  font-size: 11.2vw;
+  max-font-size: 62px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  transition: transform 0.25s ease;
+}
+.card { --clamp: 1; }
+.countdown__num { font-size: clamp(34px, 12vw, 68px); }
+
+.countdown__num.pop {
+  animation: numPop 0.35s ease;
+}
+
+@keyframes numPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.countdown__colon {
+  font-family: var(--font-round);
+  font-weight: 800;
+  color: var(--pink);
+  font-size: clamp(26px, 9vw, 50px);
+  align-self: center;
+  margin-top: -0.6em;
+  padding: 0 1px;
+}
+
+.countdown__label {
+  font-family: var(--font-round);
+  font-weight: 600;
+  color: var(--pink);
+  font-size: clamp(8px, 2.6vw, 13px);
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   HOTSPOTS — invisible clickable areas placed exactly over
+   the buttons that are already drawn in the artwork.
+   ============================================================ */
+
+.hotspot {
+  position: absolute;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), filter 0.25s ease;
+}
+
+.hotspot:hover,
+.hotspot:focus-visible {
+  transform: scale(1.045);
+  filter: brightness(1.03);
+}
+
+.hotspot:active {
+  transform: scale(0.97);
+}
+
+/* "COMO LLEGAR" button zone (over address block) */
+.hotspot--comollegar {
+  left: 33.4%;
+  top: 19%;
+  width: 33.4%;
+  height: 15.6%;
+  border-radius: 40px;
+}
+
+/* "CONFIRMAR ASISTENCIA" button zone */
+.hotspot--confirm {
+  left: 19.3%;
+  top: 16.1%;
+  width: 61.1%;
+  height: 16.9%;
+  border-radius: 40px;
+}
+
+/* Alias block: extra "Copiar Alias" pill button (added, not in original art) */
+.block--alias { position: relative; }
+
+.hotspot--alias {
+  left: 19.2%;
+  top: 60%;
+  width: 48%;
+  height: 8.5%;
+  background: var(--pink);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.hotspot--alias span {
+  font-family: var(--font-round);
+  font-weight: 700;
+  color: var(--white);
+  font-size: clamp(10px, 2.9vw, 15px);
+  letter-spacing: 0.03em;
+}
+
+.hotspot--alias:hover,
+.hotspot--alias:focus-visible {
+  background: var(--pink-dark);
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translate(-50%, 20px);
+  background: #2b2b2b;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-family: var(--font-round);
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ============================================================
+   AMBIENT FLOATING DOODLES — extra, subtle, added life.
+   Placed only over empty beige margins, never over artwork text.
+   ============================================================ */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  display: none; /* only shown on wide viewports where side margins exist */
+}
+
+@media (min-width: 620px) {
+  .ambient { display: block; }
+}
+
+.doodle {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  opacity: 0.35;
+}
+
+.doodle--1 { top: 12%; left: calc(50% - 330px); animation: floatY 6s ease-in-out infinite; }
+.doodle--2 { top: 45%; right: calc(50% - 320px); animation: floatY 7.5s ease-in-out infinite 1s; }
+.doodle--3 { top: 75%; left: calc(50% - 310px); animation: floatY 5.5s ease-in-out infinite 0.5s; }
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle { animation: none; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 400px) {
+  .toast { font-size: 13px; padding: 10px 18px; bottom: 20px; }
+}
